@@ -15,8 +15,8 @@ import { RouterLink } from '@angular/router';
 })
 export class HabitListComponent implements OnInit {
   habits: Habit[] = [];
-  today = DateUtils.today();
-  filterValue = 'all'; // 'all', 'completed', 'pending'
+  today: string = DateUtils.today();
+  filterValue: string = 'all'; // 'all', 'completed', 'pending'
   
   constructor(
     private habitService: HabitService,
@@ -50,7 +50,7 @@ export class HabitListComponent implements OnInit {
       if (completed) {
         const xpResult = this.userService.addXp(10); // 10 XP por hábito concluído
         
-        if (xpResult.leveledUp) {
+        if (xpResult && xpResult.leveledUp) {
           // Poderíamos mostrar uma animação de nível aqui
           this.userService.checkAchievements();
         }
