@@ -1,59 +1,168 @@
-# HabitHunter
+# 🏆 Habit Hunter
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+<div align="center">
+  
+![Habit Hunter](https://img.shields.io/badge/Habit%20Hunter-1.0.0-7356BF?style=for-the-badge)
+![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=for-the-badge&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-3178C6?style=for-the-badge&logo=typescript)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+  
+**Transforme seus hábitos em conquistas divertidas**
 
-## Development server
+<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/trophy.svg" width="120" alt="Trophy" style="filter: invert(43%) sepia(46%) saturate(4929%) hue-rotate(244deg) brightness(92%) contrast(92%);">
 
-To start a local development server, run:
+<p>Um aplicativo de rastreamento de hábitos gamificado para tornar o desenvolvimento de hábitos saudáveis uma jornada divertida e recompensadora.</p>
 
-```bash
-ng serve
+</div>
+
+---
+
+## 📱 Capturas de Tela
+
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="docs/assets/screenshot-home.png" alt="Tela Inicial" width="200"/></td>
+      <td><img src="docs/assets/screenshot-habits.png" alt="Lista de Hábitos" width="200"/></td>
+      <td><img src="docs/assets/screenshot-rewards.png" alt="Recompensas" width="200"/></td>
+    </tr>
+  </table>
+</div>
+
+## ✨ Características
+
+- 📋 **Gerenciamento de Hábitos** - Crie, acompanhe e gerencie seus hábitos diários
+- 🎮 **Gamificação** - Ganhe XP, suba de nível e conquiste medalhas
+- 📊 **Estatísticas Detalhadas** - Visualize seu progresso com gráficos intuitivos
+- 🎨 **Personalização** - Escolha entre vários temas e personalize seus hábitos
+- 🔄 **Sincronização** - Exporte e importe seus dados
+- 📱 **Responsivo** - Funciona em dispositivos móveis e desktop
+
+## 🚀 Começando
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (v14.x ou superior)
+- [npm](https://www.npmjs.com/) (v6.x ou superior) ou [yarn](https://yarnpkg.com/)
+- [Angular CLI](https://angular.io/cli) (v17.x)
+
+### Instalação
+
+1. Clone o repositório
+   ```bash
+   git clone https://github.com/luccagoltzman/habit-hunter.git
+   cd habit-hunter
+   ```
+
+2. Instale as dependências
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
+
+3. Inicie o servidor de desenvolvimento
+   ```bash
+   ng serve
+   ```
+
+4. Abra seu navegador e acesse `http://localhost:4200`
+
+## 🏗️ Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── components/            # Componentes da aplicação
+│   │   ├── home/              # Tela inicial
+│   │   ├── habit-list/        # Lista de hábitos
+│   │   ├── habit-create/      # Criação de hábitos
+│   │   ├── progress/          # Visualização de progresso
+│   │   ├── rewards/           # Sistema de recompensas
+│   │   └── settings/          # Configurações
+│   ├── models/                # Interfaces e tipos
+│   ├── services/              # Serviços para lógica de negócios
+│   └── utils/                 # Funções utilitárias
+├── assets/                    # Recursos estáticos
+└── styles/                    # Estilos globais
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🧠 Conceitos de Design
 
-## Code scaffolding
+O Habit Hunter é construído com os seguintes princípios em mente:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Simplicidade**: Interface limpa e intuitiva
+- **Recompensa**: Sistema de gamificação para motivação contínua
+- **Consistência**: Design coerente em todas as telas
+- **Acessibilidade**: Usável por todos, independente de dispositivo
 
-```bash
-ng generate component component-name
-```
+## 🎯 Como Usar
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. **Criar um Hábito**: Adicione um novo hábito na tela "Criar"
+2. **Acompanhar Progresso**: Marque hábitos como completos na tela "Hábitos"
+3. **Visualizar Conquistas**: Veja suas recompensas na tela "Recompensas"
+4. **Personalizar**: Ajuste as configurações na tela "Ajustes"
 
-```bash
-ng generate --help
-```
+## 🌈 Temas
 
-## Building
+O Habit Hunter oferece quatro temas para personalizar sua experiência:
 
-To build the project run:
+- **Claro**: Tema padrão com fundo branco
+- **Escuro**: Para uso noturno e economia de bateria
+- **Roxo**: Um tema vibrante com tons de roxo
+- **Verde**: Um tema refrescante com tons de verde
 
-```bash
-ng build
-```
+## 🛠️ Tecnologias
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- [Angular](https://angular.io/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [SCSS](https://sass-lang.com/)
+- [Font Awesome](https://fontawesome.com/)
+- [localStorage](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)
 
-## Running unit tests
+## 📊 Recursos de Gamificação
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Experiência (XP)**: Ganhe pontos ao completar hábitos
+- **Níveis**: Suba de nível conforme acumula XP
+- **Conquistas**: Desbloqueie medalhas por marcos atingidos
+- **Temas**: Desbloqueie novos temas ao avançar
 
-```bash
-ng test
-```
+## 📋 Roadmap
 
-## Running end-to-end tests
+- [ ] Notificações push
+- [ ] Hábitos com dias específicos da semana
+- [ ] Hábitos com contagem (por exemplo, beber 8 copos de água)
+- [ ] Backup na nuvem
+- [ ] Compartilhamento social
 
-For end-to-end (e2e) testing, run:
+## 💬 FAQ
 
-```bash
-ng e2e
-```
+**P**: Os dados são salvos quando fecho o aplicativo?  
+**R**: Sim, todos os dados são salvos localmente no seu dispositivo.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**P**: Como resetar todos os hábitos?  
+**R**: Na tela de Configurações, existe uma opção para limpar todos os dados.
 
-## Additional Resources
+## 🙏 Agradecimentos
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Ícones por [Font Awesome](https://fontawesome.com/)
+- Fonte [Poppins](https://fonts.google.com/specimen/Poppins) por Google Fonts
+
+## 📜 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+---
+
+<div align="center">
+  Desenvolvido por <a href="https://github.com/luccagoltzman">Lucca Goltzman</a>
+  
+  <br/><br/>
+  
+  <a href="mailto:luccagoltzman@gmail.com">
+    <img src="https://img.shields.io/badge/Email-Contato-D14836?style=for-the-badge&logo=gmail" alt="Email" />
+  </a>
+  <a href="https://github.com/luccagoltzman">
+    <img src="https://img.shields.io/badge/GitHub-Perfil-181717?style=for-the-badge&logo=github" alt="GitHub" />
+  </a>
+</div>
