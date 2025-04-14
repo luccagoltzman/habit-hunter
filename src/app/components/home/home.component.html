@@ -1,1 +1,70 @@
-<p>home works!</p>
+<div class="home-container">
+  <!-- Boas vindas -->
+  <section class="welcome-section">
+    <div class="user-info" *ngIf="user">
+      <div class="level-badge">{{ user.level }}</div>
+      <div class="user-stats">
+        <h2>Olá, Aventureiro!</h2>
+        <p class="xp-info">{{ user.xp }} XP</p>
+        
+        <div class="progress-container">
+          <div class="progress-bar" [style.width.%]="nextLevelProgress"></div>
+        </div>
+        <p class="level-info">Próximo nível: {{ user.level + 1 }}</p>
+      </div>
+    </div>
+    
+    <div class="call-to-action" *ngIf="totalHabits === 0">
+      <p>Comece sua jornada criando seu primeiro hábito</p>
+      <a routerLink="/create" class="btn-primary">Criar Hábito</a>
+    </div>
+  </section>
+
+  <!-- Progresso diário -->
+  <section class="daily-progress" *ngIf="totalHabits > 0">
+    <h3>Progresso de Hoje</h3>
+    <div class="progress-container">
+      <div class="progress-bar" [style.width.%]="(todayCompletedCount / totalHabits) * 100"></div>
+    </div>
+    <p class="progress-text">{{ dailyProgressText }}</p>
+    
+    <div class="action-buttons">
+      <a routerLink="/habits" class="btn-primary">Marcar Hábitos</a>
+    </div>
+  </section>
+
+  <!-- Recompensas -->
+  <section class="rewards-preview" *ngIf="user && user.rewards.length > 0">
+    <div class="section-header">
+      <h3>Conquistas</h3>
+      <a routerLink="/rewards" class="view-all">Ver todas</a>
+    </div>
+    
+    <div class="rewards-list">
+      <div class="reward-card" *ngFor="let reward of user.rewards.slice(0, 3)">
+        <div class="reward-icon" [class.unlocked]="reward.unlocked">
+          <span>{{ reward.type === 'badge' ? '🏆' : '🎨' }}</span>
+        </div>
+        <div class="reward-info">
+          <h4>{{ reward.name }}</h4>
+          <p>{{ reward.description }}</p>
+        </div>
+        <div class="reward-status" *ngIf="reward.unlocked">
+          <span class="check-icon">✓</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="new-reward-badge" *ngIf="hasNewRewards">
+      <span>Novo!</span>
+    </div>
+  </section>
+
+  <!-- Dicas motivacionais -->
+  <section class="motivation-tips">
+    <h3>Dica do dia</h3>
+    <div class="tip-card">
+      <p>"A constância diária transforma pequenos hábitos em grandes resultados."</p>
+    </div>
+  </section>
+</div>

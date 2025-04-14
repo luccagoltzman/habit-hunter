@@ -1,0 +1,274 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Seção de boas-vindas */
+.welcome-section {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px var(--shadow);
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .level-badge {
+    background-color: var(--primary);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .user-stats {
+    flex: 1;
+    
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .xp-info {
+      color: var(--text-muted);
+      margin: 0 0 0.5rem 0;
+      font-weight: 500;
+    }
+    
+    .level-info {
+      margin: 0.3rem 0 0 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+  }
+  
+  .call-to-action {
+    text-align: center;
+    margin-top: 1rem;
+    
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+/* Progresso diário */
+.daily-progress {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px var(--shadow);
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .progress-text {
+    margin: 0.6rem 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Recompensas */
+.rewards-preview {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px var(--shadow);
+  position: relative;
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    
+    .view-all {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  .rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .reward-card {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    background-color: var(--background);
+    border-radius: 8px;
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+  
+  .reward-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.3rem;
+    opacity: 0.6;
+    
+    &.unlocked {
+      background-color: var(--primary);
+      opacity: 1;
+    }
+  }
+  
+  .reward-info {
+    flex: 1;
+    
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    
+    p {
+      margin: 0.3rem 0 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  }
+  
+  .reward-status {
+    .check-icon {
+      color: var(--success);
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+  
+  .new-reward-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--secondary);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+  }
+}
+
+/* Dicas motivacionais */
+.motivation-tips {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px var(--shadow);
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .tip-card {
+    background-color: var(--background);
+    border-left: 4px solid var(--primary);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+    
+    p {
+      margin: 0;
+      font-style: italic;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* Componentes comuns */
+.progress-container {
+  width: 100%;
+  height: 0.8rem;
+  background-color: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  
+  .progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+  }
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: var(--primary);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+/* Animações */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
