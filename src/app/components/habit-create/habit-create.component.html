@@ -1,1 +1,70 @@
-<p>habit-create works!</p>
+<div class="create-container">
+  <h2 class="form-title">Criar Novo Hábito</h2>
+  
+  <form (ngSubmit)="saveHabit()" #habitForm="ngForm">
+    <!-- Nome do hábito -->
+    <div class="form-group">
+      <label for="habitName">Nome do hábito</label>
+      <input 
+        type="text" 
+        id="habitName" 
+        name="habitName" 
+        [(ngModel)]="newHabit.name" 
+        class="form-control"
+        placeholder="Ex: Beber água" 
+        required>
+    </div>
+    
+    <!-- Descrição (opcional) -->
+    <div class="form-group">
+      <label for="habitDescription">Descrição (opcional)</label>
+      <textarea 
+        id="habitDescription" 
+        name="habitDescription" 
+        [(ngModel)]="newHabit.description" 
+        class="form-control"
+        placeholder="Adicione detalhes sobre seu hábito"
+        rows="3"></textarea>
+    </div>
+    
+    <!-- Frequência -->
+    <div class="form-group">
+      <label for="habitFrequency">Frequência</label>
+      <select 
+        id="habitFrequency" 
+        name="habitFrequency" 
+        [(ngModel)]="newHabit.frequency" 
+        class="form-control"
+        required>
+        <option *ngFor="let option of frequencyOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+    
+    <!-- Seleção de cor -->
+    <div class="form-group">
+      <label>Cor</label>
+      <div class="color-picker">
+        <div 
+          *ngFor="let color of predefinedColors" 
+          class="color-option"
+          [style.backgroundColor]="color"
+          [class.selected]="newHabit.color === color"
+          (click)="selectColor(color)">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Botões de ação -->
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+      <button 
+        type="submit" 
+        class="btn-primary" 
+        [disabled]="!isValid()">
+        Salvar Hábito
+      </button>
+    </div>
+  </form>
+</div>
