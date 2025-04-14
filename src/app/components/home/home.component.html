@@ -1,11 +1,11 @@
-<div class="home-container">
+<div class="home-container animate-slide-up">
   <!-- Boas vindas -->
-  <section class="welcome-section">
+  <section class="card card-primary welcome-section mb-4">
     <div class="user-info" *ngIf="user">
-      <div class="level-badge">{{ user.level }}</div>
+      <div class="level-badge animate-pulse">{{ user.level }}</div>
       <div class="user-stats">
         <h2>Olá, Aventureiro!</h2>
-        <p class="xp-info">{{ user.xp }} XP</p>
+        <p class="xp-info"><i class="fas fa-star"></i> {{ user.xp }} XP</p>
         
         <div class="progress-container">
           <div class="progress-bar" [style.width.%]="nextLevelProgress"></div>
@@ -14,43 +14,51 @@
       </div>
     </div>
     
-    <div class="call-to-action" *ngIf="totalHabits === 0">
-      <p>Comece sua jornada criando seu primeiro hábito</p>
-      <a routerLink="/create" class="btn-primary">Criar Hábito</a>
+    <div class="call-to-action text-center mt-4" *ngIf="totalHabits === 0">
+      <p class="mb-3">Comece sua jornada criando seu primeiro hábito</p>
+      <a routerLink="/create" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Criar Hábito
+      </a>
     </div>
   </section>
 
   <!-- Progresso diário -->
-  <section class="daily-progress" *ngIf="totalHabits > 0">
-    <h3>Progresso de Hoje</h3>
+  <section class="card daily-progress mb-4" *ngIf="totalHabits > 0">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3><i class="fas fa-chart-line mr-2"></i> Progresso de Hoje</h3>
+      <span class="badge-progress">{{ todayCompletedCount }}/{{ totalHabits }}</span>
+    </div>
+    
     <div class="progress-container">
       <div class="progress-bar" [style.width.%]="(todayCompletedCount / totalHabits) * 100"></div>
     </div>
-    <p class="progress-text">{{ dailyProgressText }}</p>
+    <p class="progress-text mt-2 mb-4">{{ dailyProgressText }}</p>
     
-    <div class="action-buttons">
-      <a routerLink="/habits" class="btn-primary">Marcar Hábitos</a>
+    <div class="action-buttons text-center">
+      <a routerLink="/habits" class="btn btn-primary">
+        <i class="fas fa-check-circle"></i> Marcar Hábitos
+      </a>
     </div>
   </section>
 
   <!-- Recompensas -->
-  <section class="rewards-preview" *ngIf="user && user.rewards.length > 0">
-    <div class="section-header">
-      <h3>Conquistas</h3>
-      <a routerLink="/rewards" class="view-all">Ver todas</a>
+  <section class="card rewards-preview mb-4" *ngIf="user && user.rewards && user.rewards.length > 0">
+    <div class="section-header d-flex justify-content-between align-items-center mb-3">
+      <h3><i class="fas fa-trophy mr-2"></i> Conquistas</h3>
+      <a routerLink="/rewards" class="btn btn-sm btn-outline-primary">Ver todas</a>
     </div>
     
     <div class="rewards-list">
-      <div class="reward-card" *ngFor="let reward of user.rewards.slice(0, 3)">
+      <div class="reward-card d-flex align-items-center mb-2 p-2" *ngFor="let reward of user.rewards.slice(0, 3)">
         <div class="reward-icon" [class.unlocked]="reward.unlocked">
-          <span>{{ reward.type === 'badge' ? '🏆' : '🎨' }}</span>
+          <i class="fas" [ngClass]="reward.type === 'badge' ? 'fa-medal' : 'fa-palette'"></i>
         </div>
-        <div class="reward-info">
-          <h4>{{ reward.name }}</h4>
-          <p>{{ reward.description }}</p>
+        <div class="reward-info flex-grow-1 ml-3">
+          <h4 class="m-0">{{ reward.name }}</h4>
+          <p class="text-muted mb-0">{{ reward.description }}</p>
         </div>
         <div class="reward-status" *ngIf="reward.unlocked">
-          <span class="check-icon">✓</span>
+          <i class="fas fa-check-circle text-success"></i>
         </div>
       </div>
     </div>
@@ -61,10 +69,12 @@
   </section>
 
   <!-- Dicas motivacionais -->
-  <section class="motivation-tips">
-    <h3>Dica do dia</h3>
-    <div class="tip-card">
-      <p>"A constância diária transforma pequenos hábitos em grandes resultados."</p>
+  <section class="card motivation-tips">
+    <h3 class="mb-3"><i class="fas fa-lightbulb mr-2"></i> Dica do dia</h3>
+    <div class="tip-card p-3 text-center">
+      <i class="fas fa-quote-left fa-2x text-muted opacity-25 mb-3"></i>
+      <p class="tip-text">"A constância diária transforma pequenos hábitos em grandes resultados."</p>
+      <p class="tip-author mt-2">- Habit Hunter</p>
     </div>
   </section>
 </div>

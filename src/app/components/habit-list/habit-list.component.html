@@ -1,66 +1,90 @@
-<div class="habit-list-container">
-  <div class="date-header">
-    <h2>{{ weekday }}</h2>
-    <p class="date">{{ formattedDate }}</p>
+<div class="habit-list-container animate-slide-up">
+  <div class="card date-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="m-0">{{ weekday }}</h2>
+        <p class="date text-muted mb-0">{{ formattedDate }}</p>
+      </div>
+      <div class="date-badge">
+        <i class="fas fa-calendar-day"></i>
+        <span>Hoje</span>
+      </div>
+    </div>
   </div>
 
   <!-- Filtros -->
-  <div class="filter-tabs">
+  <div class="filter-tabs mb-4">
     <button 
       class="filter-tab" 
       [class.active]="filterValue === 'all'"
       (click)="changeFilter('all')">
-      Todos
+      <i class="fas fa-list mr-1"></i> Todos
     </button>
     <button 
       class="filter-tab" 
       [class.active]="filterValue === 'pending'"
       (click)="changeFilter('pending')">
-      Pendentes
+      <i class="fas fa-clock mr-1"></i> Pendentes
     </button>
     <button 
       class="filter-tab" 
       [class.active]="filterValue === 'completed'"
       (click)="changeFilter('completed')">
-      Concluídos
+      <i class="fas fa-check-circle mr-1"></i> Concluídos
     </button>
   </div>
 
   <!-- Lista de hábitos -->
   <div class="habits-list">
-    <div *ngIf="filteredHabits.length === 0" class="empty-state">
+    <div *ngIf="filteredHabits.length === 0" class="empty-state card p-4 text-center">
+      <i class="fas fa-seedling fa-3x mb-3 text-muted"></i>
       <p *ngIf="habits.length === 0">Você ainda não criou nenhum hábito.</p>
       <p *ngIf="habits.length > 0">Nenhum hábito encontrado com este filtro.</p>
-      <a *ngIf="habits.length === 0" routerLink="/create" class="btn-primary">Criar Hábito</a>
+      <a *ngIf="habits.length === 0" routerLink="/create" class="btn btn-primary mt-3">
+        <i class="fas fa-plus-circle mr-1"></i> Criar Hábito
+      </a>
     </div>
 
     <div 
-      *ngFor="let habit of filteredHabits" 
+      *ngFor="let habit of filteredHabits; let i = index" 
       class="habit-card"
-      [style.borderLeftColor]="habit.color">
+      [style.borderLeftColor]="habit.color"
+      [class.animate-item]="true"
+      [style.animation-delay]="i * 0.1 + 's'">
       
       <div class="habit-content">
         <div class="habit-info">
           <h3 class="habit-name">{{ habit.name }}</h3>
-          <p class="habit-frequency">{{ habit.frequency }}</p>
+          <p class="habit-frequency">
+            <i class="fas fa-redo-alt mr-1"></i> {{ habit.frequency }}
+          </p>
         </div>
         
         <button 
           class="habit-complete-btn" 
           [class.completed]="isCompletedToday(habit.id)"
           (click)="toggleHabit(habit)">
-          <span *ngIf="isCompletedToday(habit.id)" class="check-icon">✓</span>
+          <i *ngIf="isCompletedToday(habit.id)" class="fas fa-check"></i>
         </button>
       </div>
       
       <p *ngIf="habit.description" class="habit-description">
         {{ habit.description }}
       </p>
+      
+      <div class="habit-actions">
+        <button class="btn-icon">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn-icon">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Botão flutuante para criar um novo hábito -->
   <a routerLink="/create" class="create-habit-btn">
-    <span class="plus-icon">+</span>
+    <i class="fas fa-plus"></i>
   </a>
 </div>

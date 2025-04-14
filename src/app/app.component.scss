@@ -1,59 +1,130 @@
 /* Variáveis de cores */
 :root {
   --primary: #7356BF;
+  --primary-light: #9370DB;
   --primary-dark: #5A409F;
+  --primary-transparent: rgba(115, 86, 191, 0.1);
+  
   --secondary: #FF9843;
+  --secondary-light: #FFB347;
   --secondary-dark: #E87B25;
+  
   --background: #F8F9FA;
   --card-bg: #FFFFFF;
   --text: #212529;
   --text-muted: #6C757D;
   --border: #DEE2E6;
+  
   --success: #28A745;
+  --success-light: #4cd964;
+  --success-dark: #218838;
+  
   --error: #DC3545;
+  --error-light: #ef5350;
+  --error-dark: #c82333;
+  
+  --warning: #FFC107;
+  --warning-light: #FFCE54;
+  --warning-dark: #EFB100;
+  
+  --info: #17A2B8;
+  --info-light: #5AC8FA;
+  --info-dark: #138496;
+  
   --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+  
+  --overlay: rgba(0, 0, 0, 0.5);
+  --overlay-light: rgba(0, 0, 0, 0.3);
+  --overlay-dark: rgba(0, 0, 0, 0.7);
+  
+  --transition-speed: 0.3s;
+  --transition-speed-fast: 0.15s;
+  --transition-speed-slow: 0.5s;
+  
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-radius-pill: 50rem;
+  --border-radius-circle: 50%;
 }
 
 /* Tema escuro */
 .dark {
   --primary: #9370DB;
+  --primary-light: #A98EE0;
   --primary-dark: #7B5BD0;
+  --primary-transparent: rgba(147, 112, 219, 0.15);
+  
   --secondary: #FFA95F;
+  --secondary-light: #FFC08C;
   --secondary-dark: #FF8B3D;
-  --background: #222222;
-  --card-bg: #333333;
+  
+  --background: #121212;
+  --card-bg: #1E1E1E;
   --text: #F8F9FA;
   --text-muted: #ADB5BD;
   --border: #444444;
+  
+  --success: #2ECC71;
+  --success-light: #46D67F;
+  --success-dark: #25A25A;
+  
+  --error: #E74C3C;
+  --error-light: #EC7063;
+  --error-dark: #C0392B;
+  
   --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
 }
 
 /* Tema roxo */
 .purple {
   --primary: #9370DB;
+  --primary-light: #B08FE6;
   --primary-dark: #7B5BD0;
+  --primary-transparent: rgba(147, 112, 219, 0.15);
+  
   --secondary: #FF9843;
+  --secondary-light: #FFAF69;
   --secondary-dark: #E87B25;
+  
   --background: #F3F0FF;
   --card-bg: #FFFFFF;
   --text: #2E1A47;
   --text-muted: #6C5980;
   --border: #E0D3FF;
+  
   --shadow: rgba(147, 112, 219, 0.1);
+  --shadow-dark: rgba(147, 112, 219, 0.2);
 }
 
 /* Tema verde */
 .green {
   --primary: #28A745;
+  --primary-light: #48C665;
   --primary-dark: #218838;
+  --primary-transparent: rgba(40, 167, 69, 0.15);
+  
   --secondary: #FFB347;
+  --secondary-light: #FFC573;
   --secondary-dark: #FFA229;
+  
   --background: #F0F9F0;
   --card-bg: #FFFFFF;
   --text: #0F3818;
   --text-muted: #5A6D5A;
   --border: #D3E5D3;
+  
   --shadow: rgba(40, 167, 69, 0.1);
+  --shadow-dark: rgba(40, 167, 69, 0.2);
 }
 
 /* Estilo global */
@@ -64,10 +135,11 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--background);
   color: var(--text);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  line-height: 1.6;
 }
 
 /* Container principal */
@@ -77,19 +149,22 @@ body {
   min-height: 100vh;
   background-color: var(--background);
   color: var(--text);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 /* Cabeçalho */
 .app-header {
   background-color: var(--primary);
   color: white;
-  padding: 1rem;
+  padding: var(--spacing-md);
   text-align: center;
-  box-shadow: 0 2px 4px var(--shadow);
-  position: sticky;
+  box-shadow: 0 2px 8px var(--shadow);
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
+  height: 60px; /* Altura fixa para calcular margens */
 
   h1 {
     margin: 0;
@@ -101,11 +176,12 @@ body {
 /* Conteúdo principal */
 .app-content {
   flex: 1;
-  padding: 1rem;
+  padding: var(--spacing-md);
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
-  padding-bottom: 70px; /* Espaço para a barra de navegação */
+  padding-bottom: 90px; /* Espaço para a barra de navegação no mobile */
+  margin-top: 60px; /* Espaço para o cabeçalho fixo */
 }
 
 /* Navegação */
@@ -135,11 +211,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0.8rem 0.5rem;
+    padding: 0.5rem var(--spacing-xs);
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.8rem;
-    transition: color 0.3s;
+    transition: color var(--transition-speed);
 
     &.active {
       color: var(--primary);
@@ -151,36 +227,51 @@ body {
   }
 
   .icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.3rem;
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-xs);
   }
 }
 
 /* Responsividade */
 @media (min-width: 768px) {
+  .app-content {
+    padding-bottom: var(--spacing-md);
+    margin-top: 130px; /* Espaço para o cabeçalho + menu no desktop */
+  }
+
   .app-nav {
-    position: static;
-    margin-top: 1rem;
+    bottom: auto;
+    top: 60px; /* Posicionado logo abaixo do header */
+    background-color: var(--background);
+    box-shadow: none;
+    padding: var(--spacing-md) 0;
 
     ul {
       max-width: 800px;
       margin: 0 auto;
+      border-radius: var(--border-radius-lg);
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 8px var(--shadow);
+      padding: var(--spacing-xs);
     }
 
     a {
       flex-direction: row;
       justify-content: center;
-      font-size: 1rem;
-      padding: 1rem;
+      font-size: 0.9rem;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-md);
+      margin: var(--spacing-xs);
+
+      &.active {
+        background-color: var(--primary-transparent);
+      }
 
       .icon {
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-sm);
         margin-bottom: 0;
+        font-size: 1.1rem;
       }
     }
-  }
-
-  .app-content {
-    padding-bottom: 1rem;
   }
 }
