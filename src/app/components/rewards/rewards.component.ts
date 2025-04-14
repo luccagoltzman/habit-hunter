@@ -23,6 +23,22 @@ export class RewardsComponent implements OnInit {
   }
 
   /**
+   * Retorna o tipo de recompensa com base no nome
+   */
+  getRewardType(typeName: string): RewardType {
+    switch (typeName.toLowerCase()) {
+      case 'badge':
+        return RewardType.BADGE;
+      case 'theme':
+        return RewardType.THEME;
+      case 'avatar':
+        return RewardType.AVATAR;
+      default:
+        return RewardType.BADGE;
+    }
+  }
+
+  /**
    * Filtra recompensas pelo tipo
    */
   getRewardsByType(type: RewardType): Reward[] {

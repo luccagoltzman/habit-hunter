@@ -1,1 +1,110 @@
-<p>settings works!</p>
+<div class="settings-container">
+  <h2 class="page-title">Configurações</h2>
+  
+  <!-- Perfil -->
+  <section class="settings-section">
+    <h3>Perfil</h3>
+    
+    <div class="form-group">
+      <label for="userName">Seu Nome</label>
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="userName" 
+          [(ngModel)]="userName" 
+          placeholder="Digite seu nome" 
+          class="form-control">
+        <button 
+          (click)="saveUserName()" 
+          class="btn-primary"
+          [disabled]="!userName.trim()">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Temas -->
+  <section class="settings-section">
+    <h3>Tema</h3>
+    
+    <div class="themes-container">
+      <div 
+        *ngFor="let theme of themes" 
+        class="theme-option"
+        [class.selected]="selectedTheme === theme"
+        (click)="changeTheme(theme)">
+        <div class="theme-preview" [class]="theme"></div>
+        <span class="theme-name">{{ theme | titlecase }}</span>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Exportar/Importar -->
+  <section class="settings-section">
+    <h3>Gerenciar Dados</h3>
+    
+    <div class="settings-buttons">
+      <button (click)="exportDataToFile()" class="btn-secondary">
+        Exportar Dados
+      </button>
+      
+      <button (click)="showResetConfirmation()" class="btn-danger">
+        Limpar Todos os Dados
+      </button>
+    </div>
+    
+    <div class="import-section">
+      <h4>Importar Dados</h4>
+      <p class="help-text">Cole abaixo os dados exportados previamente:</p>
+      
+      <textarea 
+        [(ngModel)]="importData" 
+        class="form-control" 
+        rows="5"
+        placeholder="Cole o JSON aqui..."></textarea>
+      
+      <p *ngIf="importError" class="error-text">{{ importError }}</p>
+      
+      <button 
+        (click)="validateImportData()" 
+        class="btn-primary"
+        [disabled]="!importData">
+        Importar
+      </button>
+    </div>
+  </section>
+  
+  <!-- Sobre o app -->
+  <section class="settings-section">
+    <h3>Sobre</h3>
+    <p class="app-info">
+      Habit Hunter v1.0.0<br>
+      Um aplicativo para acompanhar hábitos com gamificação
+    </p>
+  </section>
+  
+  <!-- Modal de confirmação de reset -->
+  <div *ngIf="showConfirmReset" class="modal-backdrop">
+    <div class="modal-dialog">
+      <h4>Atenção!</h4>
+      <p>Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button (click)="cancelReset()" class="btn-secondary">Cancelar</button>
+        <button (click)="resetAllData()" class="btn-danger">Limpar Dados</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de confirmação de importação -->
+  <div *ngIf="showImportConfirm" class="modal-backdrop">
+    <div class="modal-dialog">
+      <h4>Atenção!</h4>
+      <p>Importar estes dados substituirá todos os seus dados atuais. Deseja continuar?</p>
+      <div class="modal-actions">
+        <button (click)="cancelImport()" class="btn-secondary">Cancelar</button>
+        <button (click)="confirmImport()" class="btn-primary">Importar</button>
+      </div>
+    </div>
+  </div>
+</div>

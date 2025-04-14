@@ -1,1 +1,85 @@
-<p>rewards works!</p>
+<div class="rewards-container">
+  <h2 class="page-title">Recompensas</h2>
+  
+  <!-- Conquistas (badges) -->
+  <section class="rewards-section">
+    <div class="section-header">
+      <h3>Conquistas</h3>
+      <span *ngIf="hasNewRewards(getRewardType('badge'))" class="new-badge">Nova!</span>
+    </div>
+    
+    <div class="rewards-grid">
+      <div *ngFor="let reward of getRewardsByType(getRewardType('badge'))" 
+           class="reward-card"
+           [class.unlocked]="reward.unlocked"
+           (click)="selectReward(reward)">
+        <div class="reward-icon">{{ getRewardIcon(reward.type) }}</div>
+        <div class="reward-info">
+          <h4>{{ reward.name }}</h4>
+          <p *ngIf="reward.unlocked" class="unlock-date">
+            Desbloqueado em: {{ reward.unlockedAt | date:'dd/MM/yyyy' }}
+          </p>
+        </div>
+        <div class="reward-lock" *ngIf="!reward.unlocked">
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Temas -->
+  <section class="rewards-section">
+    <div class="section-header">
+      <h3>Temas</h3>
+      <span *ngIf="hasNewRewards(getRewardType('theme'))" class="new-badge">Novo!</span>
+    </div>
+    
+    <div class="rewards-grid">
+      <div *ngFor="let reward of getRewardsByType(getRewardType('theme'))" 
+           class="reward-card"
+           [class.unlocked]="reward.unlocked"
+           (click)="selectReward(reward)">
+        <div class="reward-icon">{{ getRewardIcon(reward.type) }}</div>
+        <div class="reward-info">
+          <h4>{{ reward.name }}</h4>
+          <button *ngIf="canUseReward(reward)" 
+                  class="use-button"
+                  (click)="$event.stopPropagation(); applyTheme(reward)">
+            Aplicar tema
+          </button>
+        </div>
+        <div class="reward-lock" *ngIf="!reward.unlocked">
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Modal de detalhes da recompensa -->
+  <div *ngIf="selectedReward" class="reward-modal">
+    <div class="modal-content">
+      <button class="close-button" (click)="closeDetails()">×</button>
+      
+      <div class="modal-icon" [class.unlocked]="selectedReward.unlocked">
+        {{ getRewardIcon(selectedReward.type) }}
+      </div>
+      
+      <h3 class="modal-title">{{ selectedReward.name }}</h3>
+      <p class="modal-description">{{ selectedReward.description }}</p>
+      
+      <div *ngIf="selectedReward.unlocked" class="unlock-info">
+        <p>Desbloqueado em: {{ selectedReward.unlockedAt | date:'dd/MM/yyyy' }}</p>
+      </div>
+      
+      <div *ngIf="!selectedReward.unlocked" class="lock-info">
+        <p>Continue evoluindo para desbloquear esta recompensa!</p>
+      </div>
+      
+      <button *ngIf="canUseReward(selectedReward)" 
+              class="use-button large"
+              (click)="applyTheme(selectedReward)">
+        Aplicar tema
+      </button>
+    </div>
+  </div>
+</div>
