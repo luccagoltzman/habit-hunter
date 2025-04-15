@@ -88,8 +88,10 @@
 }
 
 .stat-item {
+  position: relative;
+  
   .stat-label {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     margin-bottom: 0.3rem;
   }
@@ -100,41 +102,67 @@
     
     &.active-streak {
       color: var(--success);
-      font-weight: bold;
-    }
-  }
-  
-  .progress-bar {
-    height: 6px;
-    background-color: var(--border);
-    border-radius: 3px;
-    margin-top: 6px;
-    overflow: hidden;
-    
-    .progress-fill {
-      height: 100%;
-      background-color: var(--primary);
-      border-radius: 3px;
-      transition: width 0.5s ease-out;
+      font-weight: 600;
+      position: relative;
+      
+      &::after {
+        content: "🔥";
+        display: inline-block;
+        margin-left: 0.3rem;
+        animation: pulse 1.5s infinite;
+      }
     }
   }
 }
 
-/* Estados especiais */
-.empty-state, .loading-state {
+.progress-bar {
+  height: 0.5rem;
+  background-color: var(--background);
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  
+  .progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 1rem;
+    transition: width 0.5s ease-in-out;
+  }
+}
+
+/* Estado vazio */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
   background-color: var(--card-bg);
   border-radius: 8px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 2px 5px var(--shadow);
+  margin: 1rem 0;
   
   p {
-    margin: 0 0 0.5rem 0;
+    margin: 0.5rem 0;
     color: var(--text-muted);
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
+  }
+}
+
+/* Estado de carregamento */
+.loading-state {
+  text-align: center;
+  padding: 2rem;
+  
+  p {
+    color: var(--text-muted);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

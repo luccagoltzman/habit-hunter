@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StorageService } from './storage.service';
-import { Habit } from '../models/habit.model';
+import { Habit, Frequency } from '../models/habit.model';
 import { CompletionStore, HabitCompletion, HabitStats } from '../models/completion.model';
 
 @Injectable({
@@ -20,6 +20,53 @@ export class HabitService {
 
   constructor(private storageService: StorageService) {
     this.loadData();
+    this.diagnoseStorageData();
+  }
+
+  /**
+   * Diagnostica problemas com os dados armazenados
+   */
+  private diagnoseStorageData(): void {
+    // Verifica os hábitos armazenados
+    const rawHabits = this.storageService.getItem<any>(this.HABITS_KEY);
+    console.log('Dados brutos de hábitos:', rawHabits);
+    
+    // Verifica as conclusões armazenadas
+    const rawCompletions = this.storageService.getItem<any>(this.COMPLETIONS_KEY);
+    console.log('Dados brutos de conclusões:', rawCompletions);
+    
+    // Verifica se os arrays/objetos estão vazios
+    if (!rawHabits || (Array.isArray(rawHabits) && rawHabits.length === 0)) {
+      console.warn('Nenhum hábito encontrado no armazenamento');
+    }
+    
+    if (!rawCompletions || Object.keys(rawCompletions).length === 0) {
+      console.warn('Nenhuma conclusão encontrada no armazenamento');
+    }
+    
+    // Verifica se há hábitos com formato inválido (string literal 'Diário' em vez de enum)
+    if (Array.isArray(rawHabits)) {
+      const hasInvalidFrequency = rawHabits.some(h => 
+        typeof h.frequency === 'string' && 
+        !Object.values(Frequency).includes(h.frequency as any));
+        
+      if (hasInvalidFrequency) {
+        console.error('Encontrados hábitos com formato inválido, limpando armazenamento');
+        this.clearStorage();
+        return;
+      }
+    }
+    
+    // Cria um hábito de teste se não houver hábitos
+    if (!rawHabits || (Array.isArray(rawHabits) && rawHabits.length === 0)) {
+      console.log('Criando hábito de teste para diagnóstico...');
+      this.addHabit({
+        name: 'Hábito de Teste',
+        description: 'Hábito criado para diagnóstico',
+        color: '#4CAF50',
+        frequency: Frequency.DAILY
+      });
+    }
   }
 
   /**
@@ -156,26 +203,56 @@ export class HabitService {
     return this.completions$.pipe(
       map(completions => {
         const habit = this.habitsSubject.value.find(h => h.id === habitId);
-        if (!habit) return null;
+        if (!habit) {
+          console.error(`Hábito não encontrado com ID: ${habitId}`);
+          return null;
+        }
+        
+        console.log(`Calculando estatísticas para hábito: ${habit.name} (${habitId})`);
         
         const habitCompletions = completions[habitId] || [];
         const totalCompletions = habitCompletions.length;
+        
+        console.log(`Total de conclusões: ${totalCompletions}`);
         
         // Ordenar as datas para cálculos
         const sortedDates = [...habitCompletions].sort();
         const lastCompleted = sortedDates.length > 0 ? sortedDates[sortedDates.length - 1] : undefined;
         
+        console.log(`Última conclusão: ${lastCompleted || 'Nunca'}`);
+        
         // Calcula a sequência atual
         const streak = this.calculateStreak(habitId, completions);
+        console.log(`Sequência calculada: ${streak}`);
         
-        // Calcula a taxa de conclusão
-        // Para simplificar, usamos o número de dias desde a criação do hábito
-        const creationDate = new Date(habit.createdAt).toISOString().split('T')[0];
+        // Calcula a taxa de conclusão de acordo com a frequência do hábito
+        // Usamos a data de criação como referência
+        let creationDate: string;
+        try {
+          creationDate = new Date(habit.createdAt).toISOString().split('T')[0];
+        } catch (error) {
+          console.error(`Erro ao parsear data de criação para ${habit.name}:`, error);
+          creationDate = new Date().toISOString().split('T')[0]; // Usa hoje como fallback
+        }
+        
         const today = new Date().toISOString().split('T')[0];
-        const totalDaysSinceCreation = this.daysBetween(creationDate, today) + 1;
         
-        const completionRate = totalDaysSinceCreation > 0 ? 
-          (totalCompletions / totalDaysSinceCreation) * 100 : 0;
+        // Calcula o número de dias desde a criação do hábito
+        const totalDaysSinceCreation = this.daysBetween(creationDate, today) + 1;
+        console.log(`Dias desde a criação: ${totalDaysSinceCreation}`);
+        
+        // Calculamos a taxa de conclusão baseada na frequência, se disponível
+        let completionRate = 0;
+        
+        if (totalDaysSinceCreation > 0) {
+          // Taxa de conclusão simples (número de conclusões dividido pelo número de dias)
+          completionRate = (totalCompletions / totalDaysSinceCreation) * 100;
+          
+          // Limita a taxa de conclusão a 100%
+          completionRate = Math.min(completionRate, 100);
+        }
+        
+        console.log(`Taxa de conclusão calculada: ${completionRate.toFixed(2)}%`);
         
         return {
           habitId,
@@ -193,48 +270,61 @@ export class HabitService {
    */
   private calculateStreak(habitId: string, completions: CompletionStore): number {
     const habitCompletions = completions[habitId] || [];
-    if (habitCompletions.length === 0) return 0;
+    if (habitCompletions.length === 0) {
+      console.log(`Sem conclusões para calcular sequência do hábito: ${habitId}`);
+      return 0;
+    }
     
-    // Converte as datas para objetos Date para facilitar a comparação
-    const dates = habitCompletions.map(date => new Date(date));
-    dates.sort((a, b) => a.getTime() - b.getTime());
+    console.log(`Calculando sequência para ${habitId} com ${habitCompletions.length} conclusões`);
     
-    // Verifica se o hábito foi concluído hoje ou ontem
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Converte e ordena as datas em formato yyyy-mm-dd para facilitar a comparação
+    const sortedDates = [...habitCompletions].sort();
+    console.log(`Datas ordenadas: ${sortedDates.join(', ')}`);
     
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
+    // Obtenha a data de hoje e ontem no formato yyyy-mm-dd
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+    console.log(`Hoje: ${today}, Ontem: ${yesterday}`);
     
-    const latestDate = dates[dates.length - 1];
-    const latestDateDay = new Date(latestDate);
-    latestDateDay.setHours(0, 0, 0, 0);
+    // Verifica se a última conclusão foi hoje ou ontem
+    const lastCompleted = sortedDates[sortedDates.length - 1];
+    console.log(`Última conclusão: ${lastCompleted}`);
     
     // Se a última conclusão não foi nem hoje nem ontem, não há sequência ativa
-    if (latestDateDay.getTime() !== today.getTime() && 
-        latestDateDay.getTime() !== yesterday.getTime()) {
+    if (lastCompleted !== today && lastCompleted !== yesterday) {
+      console.log(`Sequência inativa: última conclusão não foi nem hoje nem ontem`);
       return 0;
     }
     
     // Calcula a sequência contando dias consecutivos
     let streak = 1;
-    let currentDate = latestDateDay;
+    let currentDate = lastCompleted === today ? today : yesterday;
+    console.log(`Iniciando cálculo de sequência com data atual: ${currentDate}`);
     
-    for (let i = dates.length - 2; i >= 0; i--) {
-      const prevDate = new Date(dates[i]);
-      prevDate.setHours(0, 0, 0, 0);
+    // Convertemos a data atual para objeto Date para facilitar o cálculo das datas anteriores
+    let currentDateObj = new Date(currentDate);
+    
+    // Criamos um conjunto de todas as datas de conclusão para verificação rápida
+    const completionSet = new Set(sortedDates);
+    
+    // Verifica datas anteriores consecutivas
+    while (true) {
+      // Obtenha o dia anterior
+      currentDateObj.setDate(currentDateObj.getDate() - 1);
+      const previousDate = currentDateObj.toISOString().split('T')[0];
       
-      const expectedPrevDate = new Date(currentDate);
-      expectedPrevDate.setDate(expectedPrevDate.getDate() - 1);
-      
-      if (prevDate.getTime() === expectedPrevDate.getTime()) {
+      // Se o dia anterior está no conjunto de conclusões, aumente a sequência
+      if (completionSet.has(previousDate)) {
         streak++;
-        currentDate = prevDate;
+        console.log(`Data anterior ${previousDate} encontrada, sequência: ${streak}`);
       } else {
+        // Se não encontrar uma data, interrompe o loop
+        console.log(`Data anterior ${previousDate} não encontrada, finalizando cálculo`);
         break;
       }
     }
     
+    console.log(`Sequência final calculada: ${streak}`);
     return streak;
   }
 
@@ -257,5 +347,24 @@ export class HabitService {
    */
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+  /**
+   * Limpa todo o armazenamento e recomeça do zero
+   */
+  private clearStorage(): void {
+    this.storageService.setItem(this.HABITS_KEY, []);
+    this.storageService.setItem(this.COMPLETIONS_KEY, {});
+    this.habitsSubject.next([]);
+    this.completionsSubject.next({});
+    
+    // Cria um hábito de teste
+    console.log('Criando hábito de teste após limpeza do armazenamento');
+    this.addHabit({
+      name: 'Hábito de Teste',
+      description: 'Hábito criado para diagnóstico após limpeza',
+      color: '#4CAF50',
+      frequency: Frequency.DAILY
+    });
   }
 }

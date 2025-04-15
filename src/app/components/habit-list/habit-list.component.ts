@@ -21,7 +21,11 @@ export class HabitListComponent implements OnInit {
   constructor(
     private habitService: HabitService,
     private userService: UserService
-  ) { }
+  ) {
+    // Atualiza a data atual para garantir que esteja correta
+    this.today = DateUtils.today();
+    console.log('Data atualizada no constructor:', this.today);
+  }
 
   ngOnInit(): void {
     this.habitService.habits$.subscribe(habits => {

@@ -1,83 +1,8 @@
 <div class="progress-container">
   <h2 class="page-title">Seu Progresso</h2>
   
-  <!-- Resumo geral -->
-  <section class="stats-summary">
-    <div class="stat-card">
-      <div class="stat-value">{{ totalCompletions }}</div>
-      <div class="stat-label">Total Concluído</div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-value">{{ maxStreak }}</div>
-      <div class="stat-label">Maior Sequência</div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-value">{{ overallCompletionRate | number:'1.0-0' }}%</div>
-      <div class="stat-label">Taxa de Conclusão</div>
-    </div>
-  </section>
-  
-  <!-- Estado vazio -->
-  <div *ngIf="habits.length === 0" class="empty-state">
-    <p>Você ainda não tem hábitos para acompanhar o progresso.</p>
-    <p>Crie seu primeiro hábito para começar!</p>
+  <div style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; text-align: center;">
+    <p>Teste de renderização do componente de progresso (conteúdo estático)</p>
+    <p>Esta é uma versão simplificada para teste.</p>
   </div>
-  
-  <!-- Carregando -->
-  <div *ngIf="isLoading && habits.length > 0" class="loading-state">
-    <p>Carregando estatísticas...</p>
-  </div>
-  
-  <!-- Lista de estatísticas por hábito -->
-  <section *ngIf="!isLoading && habits.length > 0" class="habits-stats">
-    <h3 class="section-title">Estatísticas por Hábito</h3>
-    
-    <div *ngFor="let habit of habitsByCompletionRate" class="habit-stat-card">
-      <div class="habit-header" [style.borderLeftColor]="habit.color">
-        <h4 class="habit-name">{{ habit.name }}</h4>
-        <span class="habit-frequency">{{ habit.frequency }}</span>
-      </div>
-      
-      <div class="stats-grid">
-        <!-- Sequência atual -->
-        <div class="stat-item">
-          <div class="stat-label">Sequência atual</div>
-          <div class="stat-value" 
-               [class.active-streak]="isStreakActive(getStatsForHabit(habit.id))">
-            {{ getStatsForHabit(habit.id)?.streak || 0 }} dias
-          </div>
-        </div>
-        
-        <!-- Taxa de conclusão -->
-        <div class="stat-item">
-          <div class="stat-label">Taxa de conclusão</div>
-          <div class="stat-value">
-            {{ (getStatsForHabit(habit.id)?.completionRate || 0) | number:'1.0-0' }}%
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" 
-                 [style.width.%]="getStatsForHabit(habit.id)?.completionRate || 0"></div>
-          </div>
-        </div>
-        
-        <!-- Última conclusão -->
-        <div class="stat-item">
-          <div class="stat-label">Última conclusão</div>
-          <div class="stat-value">
-            {{ formatDate(getStatsForHabit(habit.id)?.lastCompleted) }}
-          </div>
-        </div>
-        
-        <!-- Total de conclusões -->
-        <div class="stat-item">
-          <div class="stat-label">Total concluído</div>
-          <div class="stat-value">
-            {{ getStatsForHabit(habit.id)?.totalCompletions || 0 }} vezes
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </div>
