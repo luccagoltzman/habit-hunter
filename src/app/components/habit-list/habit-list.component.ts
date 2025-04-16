@@ -35,6 +35,18 @@ export class HabitListComponent implements OnInit {
   }
 
   /**
+   * Adiciona XP e verifica conquistas
+   */
+  private addXpAndCheckAchievements(amount: number): void {
+    const result = this.userService.addXp(amount);
+    
+    // Se o usuário subiu de nível, verifica novas conquistas
+    if (result.leveledUp) {
+      this.userService.checkAchievements();
+    }
+  }
+
+  /**
    * Alterna a conclusão de um hábito
    */
   toggleHabit(habit: Habit): void {
@@ -45,6 +57,8 @@ export class HabitListComponent implements OnInit {
       this.habitService.uncompleteHabit(habit.id, today);
     } else {
       this.habitService.completeHabit(habit.id, today);
+      // Adiciona XP quando o hábito é completado
+      this.addXpAndCheckAchievements(10);
     }
   }
   
@@ -69,6 +83,8 @@ export class HabitListComponent implements OnInit {
       if (updatedHabit.currentCount >= habit.countGoal) {
         const today = new Date().toISOString().split('T')[0];
         this.habitService.completeHabit(habit.id, today);
+        // Adiciona XP quando o hábito com contagem é completado
+        this.addXpAndCheckAchievements(10);
       }
     }
   }
@@ -257,8 +273,14 @@ export class HabitListComponent implements OnInit {
     
     // Verifica se todos os itens estão marcados para concluir o hábito
     const today = new Date().toISOString().split('T')[0];
+    const wasCompleted = this.habitService.isHabitCompletedOnDate(habit.id, today);
+    
     if (checkedCount >= habit.countGoal) {
       this.habitService.completeHabit(habit.id, today);
+      // Adiciona XP somente se o hábito não estava completo antes
+      if (!wasCompleted) {
+        this.addXpAndCheckAchievements(10);
+      }
     } else {
       this.habitService.uncompleteHabit(habit.id, today);
     }
