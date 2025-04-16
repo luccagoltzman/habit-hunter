@@ -173,10 +173,11 @@ export class HabitCreateComponent implements OnInit {
   toggleChecklistInput(): void {
     this.showChecklistInput = !this.showChecklistInput;
     
-    // Inicializa os nomes dos itens do checklist quando ativado
+    // Inicializa os itens quando o modo checklist é ativado
     if (this.showChecklistInput && this.newHabit.countGoal) {
-      if (!this.newHabit.checklistItemNames || this.newHabit.checklistItemNames.length !== this.newHabit.countGoal) {
-        this.newHabit.checklistItemNames = Array(this.newHabit.countGoal).fill('').map((_, i) => `Item ${i + 1}`);
+      // Inicializa o array se necessário
+      if (!this.newHabit.checklistItemNames) {
+        this.newHabit.checklistItemNames = Array(this.newHabit.countGoal).fill('');
       }
     }
   }
@@ -187,14 +188,66 @@ export class HabitCreateComponent implements OnInit {
   updateChecklistItems(): void {
     if (this.showChecklistInput && this.newHabit.countGoal) {
       if (!this.newHabit.checklistItemNames) {
-        this.newHabit.checklistItemNames = [];
+        this.newHabit.checklistItemNames = Array(this.newHabit.countGoal).fill('');
+        return;
       }
       
-      // Mantém os nomes existentes e adiciona novos para os itens adicionais
-      const oldNames = [...(this.newHabit.checklistItemNames || [])];
-      this.newHabit.checklistItemNames = Array(this.newHabit.countGoal).fill('').map((_, i) => 
-        oldNames[i] || `Item ${i + 1}`
-      );
+      const currentLength = this.newHabit.checklistItemNames.length;
+      const targetLength = this.newHabit.countGoal;
+      
+      if (currentLength < targetLength) {
+        // Adiciona novos itens vazios
+        for (let i = currentLength; i < targetLength; i++) {
+          this.newHabit.checklistItemNames.push('');
+        }
+      } else if (currentLength > targetLength) {
+        // Reduz o tamanho do array
+        this.newHabit.checklistItemNames = this.newHabit.checklistItemNames.slice(0, targetLength);
+      }
     }
+  }
+
+  /**
+   * Gerencia o comportamento do input em dispositivos móveis
+   */
+  handleItemBlur(event: Event): void {
+    // Removemos a lógica que estava forçando o retorno do foco
+    // Isso estava fazendo com que apenas uma letra pudesse ser digitada por vez
+    
+    // Permitir que o comportamento padrão ocorra naturalmente
+    // Sem forçar o retorno do foco
+  }
+
+  /**
+   * Atualiza o nome de um item específico do checklist
+   */
+  updateItemName(index: number, value: string): void {
+    if (this.newHabit.checklistItemNames) {
+      this.newHabit.checklistItemNames[index] = value;
+    }
+  }
+
+  /**
+   * Gera um array de tamanho específico para iterar em templates
+   * Este é um método utilitário para uso com *ngFor
+   */
+  generateArray(count: number): any[] {
+    return Array(count).fill(0);
+  }
+
+  /**
+   * Define o nome de um item específico do checklist
+   */
+  setChecklistItemName(index: number, value: string): void {
+    if (!this.newHabit.checklistItemNames) {
+      this.newHabit.checklistItemNames = Array(this.newHabit.countGoal).fill('');
+    }
+    
+    // Garantir que o array tem tamanho suficiente
+    while (this.newHabit.checklistItemNames.length <= index) {
+      this.newHabit.checklistItemNames.push('');
+    }
+    
+    this.newHabit.checklistItemNames[index] = value;
   }
 }

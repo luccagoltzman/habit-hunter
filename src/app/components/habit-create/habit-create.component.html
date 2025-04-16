@@ -92,7 +92,7 @@
           id="countGoal" 
           name="countGoal" 
           [(ngModel)]="newHabit.countGoal" 
-          (ngModelChange)="updateChecklistItems()"
+          (blur)="updateChecklistItems()"
           class="form-control"
           placeholder="Ex: 8" 
           min="1"
@@ -124,21 +124,24 @@
       <!-- Personalização dos itens do checklist -->
       <div class="form-group" *ngIf="showCountInput && showChecklistInput && newHabit.countGoal">
         <label><i class="fas fa-list-alt mr-2"></i> Personalizar Itens</label>
-        <div class="checklist-items-container">
-          <div class="checklist-item-input" *ngFor="let item of newHabit.checklistItemNames || []; let i = index">
-            <div class="input-group mb-2">
+        
+        <div class="checklist-container">
+          <div *ngFor="let dummy of generateArray(newHabit.countGoal || 0); let i = index" class="mb-2">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">{{ i + 1 }}</span>
+                <span class="input-group-text">{{i+1}}</span>
               </div>
               <input 
                 type="text" 
                 class="form-control"
-                [(ngModel)]="newHabit.checklistItemNames![i]" 
+                [ngModel]="newHabit.checklistItemNames ? newHabit.checklistItemNames[i] || '' : ''" 
+                (ngModelChange)="setChecklistItemName(i, $event)"
                 name="checklistItem{{i}}"
-                placeholder="Nome do item {{i + 1}}">
+                placeholder="Nome do item {{i+1}}">
             </div>
           </div>
         </div>
+        
         <small class="help-text">Personalize o nome de cada item da sua lista de verificação</small>
       </div>
       

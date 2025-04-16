@@ -292,7 +292,7 @@ input[type="number"] {
 }
 
 .checklist-item-input {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   
   .input-group-text {
     background-color: var(--primary);
@@ -307,10 +307,14 @@ input[type="number"] {
   .form-control {
     border-left: none;
     transition: all 0.3s ease;
+    -webkit-user-select: auto; /* Para iOS Safari */
+    user-select: auto;
+    -webkit-appearance: none; /* Para dispositivos móveis */
     
     &:focus {
       box-shadow: none;
       border-color: var(--primary);
+      outline: none;
     }
   }
 }
@@ -320,4 +324,40 @@ input[type="number"] {
   .checklist-items-container {
     max-height: 200px;
   }
+  
+  .checklist-item-input {
+    margin-bottom: 16px; /* Mais espaço entre os itens para evitar toques acidentais */
+    
+    .form-control {
+      font-size: 16px; /* Tamanho mínimo para evitar zoom automático em iOS */
+      padding: 12px; /* Maior área de toque */
+      height: auto; /* Altura automática */
+    }
+  }
+  
+  /* Evita problemas de espaço quando o teclado virtual aparece */
+  .create-container {
+    padding-bottom: 100px; /* Espaço para o teclado virtual */
+  }
+  
+  /* Impede que o conteúdo seja deslocado quando o teclado abre */
+  .form-group {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.checklist-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input-group-text {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+  border: none;
+  width: 40px;
+  display: flex;
+  justify-content: center;
 }
