@@ -18,27 +18,27 @@
   margin-bottom: 1.5rem;
   animation: fadeUp 0.5s ease-out forwards;
   opacity: 0;
-  
+
   &:nth-child(1) {
     animation-delay: 0.1s;
   }
-  
+
   &:nth-child(2) {
     animation-delay: 0.2s;
   }
-  
+
   &:nth-child(3) {
     animation-delay: 0.3s;
   }
-  
+
   &:nth-child(4) {
     animation-delay: 0.4s;
   }
-  
+
   &:nth-child(5) {
     animation-delay: 0.5s;
   }
-  
+
   label {
     display: block;
     margin-bottom: 0.5rem;
@@ -56,13 +56,13 @@
   color: var(--text);
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
-  
+
   &:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(115, 86, 191, 0.2);
   }
-  
+
   &::placeholder {
     color: var(--text-muted);
   }
@@ -92,16 +92,16 @@ textarea.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 10px var(--shadow);
   }
-  
+
   &.selected {
     border-color: white;
     box-shadow: 0 0 0 2px var(--primary), 0 2px 5px var(--shadow);
-    
+
     i {
       color: white;
       font-size: 1rem;
@@ -116,7 +116,7 @@ textarea.form-control {
   justify-content: space-between;
   margin-top: var(--spacing-lg);
   gap: var(--spacing-md);
-  
+
   button {
     flex: 1;
   }
@@ -125,7 +125,7 @@ textarea.form-control {
 .btn-primary {
   background-color: var(--primary);
   color: white;
-  
+
   &:hover:not(:disabled) {
     background-color: var(--primary-dark);
   }
@@ -135,7 +135,7 @@ textarea.form-control {
   background-color: var(--background);
   color: var(--text);
   border: 1px solid var(--border);
-  
+
   &:hover {
     background-color: var(--border);
   }
@@ -147,6 +147,7 @@ textarea.form-control {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -171,7 +172,7 @@ textarea.form-control {
   .color-picker {
     justify-content: center;
   }
-  
+
   .form-actions {
     flex-direction: column-reverse;
   }
@@ -199,11 +200,11 @@ textarea.form-control {
   border: 1px solid var(--border);
   font-size: 0.85rem;
   font-weight: 500;
-  
+
   &:hover {
     background-color: var(--background);
   }
-  
+
   &.selected {
     background-color: var(--primary);
     color: white;
@@ -228,7 +229,7 @@ textarea.form-control {
 input[type="number"] {
   appearance: none;
   -moz-appearance: textfield;
-  
+
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -241,11 +242,11 @@ input[type="number"] {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  
+
   input[type="checkbox"] {
     display: none;
   }
-  
+
   label {
     display: flex;
     align-items: center;
@@ -253,7 +254,7 @@ input[type="number"] {
     cursor: pointer;
     font-weight: 500;
   }
-  
+
   .checkbox-icon {
     display: flex;
     align-items: center;
@@ -266,19 +267,19 @@ input[type="number"] {
     border-radius: 50%;
     margin-right: 10px;
     transition: all 0.2s ease;
-    
+
     i {
       color: white;
       font-size: 0.8rem;
     }
   }
-  
-  input[type="checkbox"]:checked + label .checkbox-icon {
+
+  input[type="checkbox"]:checked+label .checkbox-icon {
     background-color: var(--primary);
     border-color: var(--primary);
   }
-  
-  input[type="checkbox"]:not(:checked) + label:hover .checkbox-icon {
+
+  input[type="checkbox"]:not(:checked)+label:hover .checkbox-icon {
     border-color: var(--primary);
     background-color: var(--primary-transparent);
   }
@@ -293,7 +294,7 @@ input[type="number"] {
 
 .checklist-item-input {
   margin-bottom: 12px;
-  
+
   .input-group-text {
     background-color: var(--primary);
     color: white;
@@ -303,14 +304,16 @@ input[type="number"] {
     display: flex;
     justify-content: center;
   }
-  
+
   .form-control {
     border-left: none;
     transition: all 0.3s ease;
-    -webkit-user-select: auto; /* Para iOS Safari */
+    -webkit-user-select: auto;
+    /* Para iOS Safari */
     user-select: auto;
-    -webkit-appearance: none; /* Para dispositivos móveis */
-    
+    -webkit-appearance: none;
+    /* Para dispositivos móveis */
+
     &:focus {
       box-shadow: none;
       border-color: var(--primary);
@@ -324,23 +327,27 @@ input[type="number"] {
   .checklist-items-container {
     max-height: 200px;
   }
-  
+
   .checklist-item-input {
-    margin-bottom: 16px; /* Mais espaço entre os itens para evitar toques acidentais */
-    
+    margin-bottom: 16px;
+    /* Mais espaço entre os itens para evitar toques acidentais */
+
     .form-control {
-      font-size: 16px; /* Tamanho mínimo para evitar zoom automático em iOS */
-      padding: 12px; /* Maior área de toque */
-      height: auto; /* Altura automática */
+      font-size: 16px;
+      /* Tamanho mínimo para evitar zoom automático em iOS */
+      padding: 12px;
+      /* Maior área de toque */
+      height: auto;
+      /* Altura automática */
     }
   }
-  
+
   /* Evita problemas de espaço quando o teclado virtual aparece */
   .create-container {
     // padding-bottom: 100px; 
     padding: 0;
   }
-  
+
   /* Impede que o conteúdo seja deslocado quando o teclado abre */
   .form-group {
     position: relative;
@@ -351,6 +358,12 @@ input[type="number"] {
 .checklist-container {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .input-group-text {
