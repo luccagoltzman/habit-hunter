@@ -176,3 +176,148 @@ textarea.form-control {
     flex-direction: column-reverse;
   }
 }
+
+// Seletor de dias da semana
+.weekday-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.weekday-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  font-weight: 500;
+  
+  &:hover {
+    background-color: var(--background);
+  }
+  
+  &.selected {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+}
+
+// Checkbox de contagem
+.form-check-input {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+// Opção de frequência
+#habitFrequency {
+  appearance: none;
+  background: var(--card-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%23888' d='M0 0l4 4 4-4H0z'/%3E%3C/svg%3E") no-repeat right 12px center/8px 8px;
+  padding-right: 30px;
+}
+
+// Input de contagem
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield;
+  
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// Estilo para checkbox personalizado
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .checkbox-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--border-radius);
+    background-color: var(--background);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.2s ease;
+    
+    i {
+      color: white;
+      font-size: 0.8rem;
+    }
+  }
+  
+  input[type="checkbox"]:checked + label .checkbox-icon {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  input[type="checkbox"]:not(:checked) + label:hover .checkbox-icon {
+    border-color: var(--primary);
+    background-color: var(--primary-transparent);
+  }
+}
+
+.checklist-items-container {
+  margin-top: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.checklist-item-input {
+  margin-bottom: 8px;
+  
+  .input-group-text {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 500;
+    border: none;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .form-control {
+    border-left: none;
+    transition: all 0.3s ease;
+    
+    &:focus {
+      box-shadow: none;
+      border-color: var(--primary);
+    }
+  }
+}
+
+/* Ajustes para mobile */
+@media (max-width: 576px) {
+  .checklist-items-container {
+    max-height: 200px;
+  }
+}

@@ -39,7 +39,7 @@
     <div *ngIf="filteredHabits.length === 0" class="empty-state card p-4 text-center">
       <i class="fas fa-seedling fa-3x mb-3 text-muted"></i>
       <p *ngIf="habits.length === 0">Você ainda não criou nenhum hábito.</p>
-      <p *ngIf="habits.length > 0">Nenhum hábito encontrado com este filtro.</p>
+      <p *ngIf="habits.length > 0 && filteredHabits.length === 0">Nenhum hábito encontrado com este filtro.</p>
       <a *ngIf="habits.length === 0" routerLink="/create" class="btn btn-primary mt-3">
         <i class="fas fa-plus-circle mr-1"></i> Criar Hábito
       </a>
@@ -57,15 +57,61 @@
           <h3 class="habit-name">{{ habit.name }}</h3>
           <p class="habit-frequency">
             <i class="fas fa-redo-alt mr-1"></i> {{ habit.frequency }}
+            <ng-container *ngIf="habit.frequency === 'Dias Específicos' && habit.weekDays && habit.weekDays.length > 0">
+              ({{ getDaysOfWeek(habit.weekDays) }})
+            </ng-container>
           </p>
         </div>
         
+        <!-- Botão simples de conclusão para hábitos sem contagem -->
         <button 
+          *ngIf="!habit.countGoal"
           class="habit-complete-btn" 
           [class.completed]="isCompletedToday(habit.id)"
           (click)="toggleHabit(habit)">
           <i *ngIf="isCompletedToday(habit.id)" class="fas fa-check"></i>
         </button>
+        
+        <!-- Contador para hábitos com contagem (modo normal) -->
+        <div *ngIf="habit.countGoal && habit.currentCount !== undefined && !habit.useChecklist" class="habit-counter">
+          <button 
+            class="counter-btn counter-minus" 
+            (click)="decrementCount(habit, $event)"
+            [disabled]="habit.currentCount === 0">
+            <i class="fas fa-minus"></i>
+          </button>
+          
+          <span class="counter-value" [class.reached]="habit.currentCount >= habit.countGoal">
+            {{ habit.currentCount }}/{{ habit.countGoal }}
+          </span>
+          
+          <button 
+            class="counter-btn counter-plus" 
+            (click)="incrementCount(habit, $event)"
+            [disabled]="habit.currentCount >= habit.countGoal">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Barra de progresso para hábitos com contagem (modo normal) -->
+      <div *ngIf="habit.countGoal && habit.currentCount !== undefined && !habit.useChecklist" class="count-progress-container">
+        <div class="count-progress-bar" [style.width.%]="getCountProgress(habit)"></div>
+      </div>
+      
+      <!-- Checklist para hábitos com contagem (modo checklist) -->
+      <div *ngIf="habit.countGoal && habit.useChecklist" class="checklist-container">
+        <div 
+          *ngFor="let item of getChecklistItems(habit); let itemIndex = index" 
+          class="checklist-item"
+          (click)="toggleChecklistItem(habit, itemIndex, $event)">
+          <div class="checklist-checkbox" [class.checked]="item">
+            <i *ngIf="item" class="fas fa-check"></i>
+          </div>
+          <span class="checklist-label">
+            {{ (habit.checklistItemNames && habit.checklistItemNames[itemIndex]) || 'Item ' + (itemIndex + 1) }}
+          </span>
+        </div>
       </div>
       
       <p *ngIf="habit.description" class="habit-description">

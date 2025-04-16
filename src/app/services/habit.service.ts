@@ -11,6 +11,7 @@ import { CompletionStore, HabitCompletion, HabitStats } from '../models/completi
 export class HabitService {
   private readonly HABITS_KEY = 'habits';
   private readonly COMPLETIONS_KEY = 'completions';
+  private readonly LAST_RESET_DATE_KEY = 'lastResetDate';
 
   private habitsSubject = new BehaviorSubject<Habit[]>([]);
   private completionsSubject = new BehaviorSubject<CompletionStore>({});
@@ -21,6 +22,7 @@ export class HabitService {
   constructor(private storageService: StorageService) {
     this.loadData();
     this.diagnoseStorageData();
+    this.checkForDayChange();
   }
 
   /**
@@ -85,6 +87,11 @@ export class HabitService {
    */
   addHabit(habit: Omit<Habit, 'id' | 'createdAt'>): Habit {
     const habits = this.habitsSubject.value;
+    
+    // Se tiver countGoal definido, mas não currentCount, inicializar como 0
+    if (habit.countGoal !== undefined && habit.currentCount === undefined) {
+      habit.currentCount = 0;
+    }
     
     const newHabit: Habit = {
       ...habit,
@@ -366,5 +373,51 @@ export class HabitService {
       color: '#4CAF50',
       frequency: Frequency.DAILY
     });
+  }
+
+  /**
+   * Verifica se é um novo dia e reseta as contagens dos hábitos se necessário
+   */
+  private checkForDayChange(): void {
+    const today = new Date().toISOString().split('T')[0];
+    const lastResetDate = this.storageService.getItem<string>(this.LAST_RESET_DATE_KEY);
+    
+    // Se é um novo dia ou não há data de último reset, resetar contagens
+    if (!lastResetDate || lastResetDate !== today) {
+      this.resetHabitCounters();
+      this.storageService.setItem(this.LAST_RESET_DATE_KEY, today);
+    }
+  }
+  
+  /**
+   * Reseta os contadores de todos os hábitos com contagem
+   */
+  private resetHabitCounters(): void {
+    const habits = this.habitsSubject.value;
+    let hasChanges = false;
+    
+    const updatedHabits = habits.map(habit => {
+      // Se o hábito tem contagem, resetar para 0
+      if (habit.countGoal !== undefined && habit.currentCount !== undefined) {
+        hasChanges = true;
+        
+        // Se estiver usando checklist, resetar todos os itens para false
+        if (habit.useChecklist && habit.checklistItems) {
+          return { 
+            ...habit, 
+            currentCount: 0,
+            checklistItems: Array(habit.countGoal).fill(false) 
+          };
+        }
+        
+        return { ...habit, currentCount: 0 };
+      }
+      return habit;
+    });
+    
+    if (hasChanges) {
+      this.habitsSubject.next(updatedHabits);
+      this.storageService.setItem(this.HABITS_KEY, updatedHabits);
+    }
   }
 }

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .habit-list-container {
   max-width: 700px;
   margin: 0 auto;
@@ -329,4 +331,131 @@
     width: 50px;
     height: 50px;
   }
+}
+
+/* Estilo para os dias da semana */
+.habit-days {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Componente de contagem */
+.habit-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counter-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--background);
+  color: var(--text);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: var(--border);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &.counter-plus {
+    background-color: var(--primary);
+    color: white;
+    
+    &:hover {
+      background-color: var(--primary-dark);
+    }
+  }
+}
+
+.counter-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 40px;
+  text-align: center;
+  
+  &.reached {
+    color: var(--success);
+    font-weight: 600;
+  }
+}
+
+/* Barra de progresso para contagem */
+.count-progress-container {
+  height: 4px;
+  background-color: var(--background);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 5px 0 10px;
+}
+
+.count-progress-bar {
+  height: 100%;
+  background-color: var(--success);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Estilos para o modo checklist */
+.checklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--border-radius);
+  background-color: var(--background);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--card-bg);
+    transform: translateX(4px);
+  }
+}
+
+.checklist-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--border-radius);
+  background-color: var(--background);
+  border: 2px solid var(--border);
+  transition: all 0.2s ease;
+  
+  i {
+    color: white;
+    font-size: 0.8rem;
+  }
+  
+  &.checked {
+    background-color: var(--success);
+    border-color: var(--success);
+  }
+}
+
+.checklist-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
 }

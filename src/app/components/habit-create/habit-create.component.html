@@ -48,6 +48,100 @@
         <small class="help-text">Com que frequência você pretende realizar este hábito?</small>
       </div>
       
+      <!-- Dias específicos da semana (se a frequência for "Dias Específicos") -->
+      <div class="form-group" *ngIf="newHabit.frequency === 'Dias Específicos'">
+        <label><i class="fas fa-calendar-week mr-2"></i> Dias da Semana</label>
+        <div class="weekday-selector d-flex flex-wrap gap-2 mt-2">
+          <div 
+            *ngFor="let day of weekDays" 
+            class="weekday-option"
+            [class.selected]="isWeekDaySelected(day.value)"
+            (click)="toggleWeekDay(day.value)">
+            {{ day.shortName }}
+          </div>
+        </div>
+        <small class="help-text">Selecione os dias da semana em que você pretende realizar este hábito</small>
+      </div>
+      
+      <!-- Opção de contagem -->
+      <div class="form-group mt-4">
+        <div class="custom-checkbox">
+          <input 
+            type="checkbox" 
+            id="useCounter" 
+            name="useCounter" 
+            [checked]="showCountInput"
+            (change)="toggleCountInput()">
+          <label for="useCounter">
+            <span class="checkbox-icon">
+              <i *ngIf="showCountInput" class="fas fa-check"></i>
+            </span>
+            <span class="checkbox-label">
+              <i class="fas fa-list-ol mr-2"></i> Hábito com contagem
+            </span>
+          </label>
+        </div>
+        <small class="help-text">Ative para hábitos que precisam ser repetidos múltiplas vezes por dia</small>
+      </div>
+      
+      <!-- Configuração da contagem (se a opção de contagem estiver ativada) -->
+      <div class="form-group" *ngIf="showCountInput">
+        <label for="countGoal"><i class="fas fa-bullseye mr-2"></i> Meta diária de contagem</label>
+        <input 
+          type="number" 
+          id="countGoal" 
+          name="countGoal" 
+          [(ngModel)]="newHabit.countGoal" 
+          (ngModelChange)="updateChecklistItems()"
+          class="form-control"
+          placeholder="Ex: 8" 
+          min="1"
+          required>
+        <small class="help-text">Quantas vezes você pretende realizar este hábito por dia?</small>
+      </div>
+      
+      <!-- Opção de checklist (se a opção de contagem estiver ativada) -->
+      <div class="form-group" *ngIf="showCountInput">
+        <div class="custom-checkbox">
+          <input 
+            type="checkbox" 
+            id="useChecklist" 
+            name="useChecklist" 
+            [checked]="showChecklistInput"
+            (change)="toggleChecklistInput()">
+          <label for="useChecklist">
+            <span class="checkbox-icon">
+              <i *ngIf="showChecklistInput" class="fas fa-check"></i>
+            </span>
+            <span class="checkbox-label">
+              <i class="fas fa-tasks mr-2"></i> Usar modo checklist
+            </span>
+          </label>
+        </div>
+        <small class="help-text">Ative para visualizar sua meta como uma lista de tarefas</small>
+      </div>
+      
+      <!-- Personalização dos itens do checklist -->
+      <div class="form-group" *ngIf="showCountInput && showChecklistInput && newHabit.countGoal">
+        <label><i class="fas fa-list-alt mr-2"></i> Personalizar Itens</label>
+        <div class="checklist-items-container">
+          <div class="checklist-item-input" *ngFor="let item of newHabit.checklistItemNames || []; let i = index">
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text">{{ i + 1 }}</span>
+              </div>
+              <input 
+                type="text" 
+                class="form-control"
+                [(ngModel)]="newHabit.checklistItemNames![i]" 
+                name="checklistItem{{i}}"
+                placeholder="Nome do item {{i + 1}}">
+            </div>
+          </div>
+        </div>
+        <small class="help-text">Personalize o nome de cada item da sua lista de verificação</small>
+      </div>
+      
       <!-- Seleção de cor -->
       <div class="form-group">
         <label><i class="fas fa-palette mr-2"></i> Cor</label>
