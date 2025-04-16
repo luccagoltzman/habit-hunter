@@ -130,8 +130,9 @@ O Habit Hunter oferece quatro temas para personalizar sua experiência:
 ## 📋 Roadmap
 
 - [ ] Notificações push
-- [ ] Hábitos com dias específicos da semana
-- [ ] Hábitos com contagem (por exemplo, beber 8 copos de água)
+- [x] Hábitos com dias específicos da semana
+- [x] Hábitos com contagem (por exemplo, beber 8 copos de água)
+- [x] Modo checklist com itens personalizáveis
 - [ ] Backup na nuvem
 - [ ] Compartilhamento social
 
