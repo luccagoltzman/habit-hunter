@@ -17,7 +17,7 @@
 
 ---
 
-## 📱 Capturas de Tela
+<!-- ## 📱 Capturas de Tela
 
 <div align="center">
   <table>
@@ -27,7 +27,7 @@
       <td><img src="docs/assets/screenshot-rewards.png" alt="Recompensas" width="200"/></td>
     </tr>
   </table>
-</div>
+</div> -->
 
 ## ✨ Características
 
